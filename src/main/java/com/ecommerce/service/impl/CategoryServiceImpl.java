@@ -17,6 +17,7 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    
     public Category findById(final Long id) {
 
         Category category = categoryRepository.findById(id).orElseThrow(

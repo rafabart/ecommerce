@@ -1,5 +1,6 @@
 package com.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ public class City implements Serializable {
     private String name;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(nullable = false, name = "state_id")
     private State state;
 }

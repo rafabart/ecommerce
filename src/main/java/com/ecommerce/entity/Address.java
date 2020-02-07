@@ -1,5 +1,6 @@
 package com.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +32,7 @@ public class Address implements Serializable {
     private String cep;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(nullable = false, name = "customer_id")
     private Customer customer;
 
