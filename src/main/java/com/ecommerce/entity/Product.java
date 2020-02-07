@@ -1,13 +1,15 @@
 package com.ecommerce.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -25,7 +27,11 @@ public class Product implements Serializable {
     private Double price;
 
     @ManyToMany
-    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(nullable = false)
     private List<Category> categories = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "id.product")
+    private Set<ItemPurchase> itemPurchases = new HashSet<>();
 }

@@ -1,6 +1,5 @@
 package com.ecommerce.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +20,6 @@ public class State implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @JsonBackReference
     @OneToMany(mappedBy = "state")
     private List<City> cities = new ArrayList<>();
 }

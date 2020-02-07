@@ -1,6 +1,7 @@
 package com.ecommerce.entity;
 
 import com.ecommerce.entity.enums.StatusPayment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class Payment implements Serializable {
 
     @MapsId
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 }

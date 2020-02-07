@@ -1,11 +1,14 @@
 package com.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,6 +20,7 @@ public class Purchase implements Serializable {
     private Long id;
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date date;
 
     @ManyToOne
@@ -29,4 +33,7 @@ public class Purchase implements Serializable {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @OneToMany(mappedBy = "id.purchase")
+    private Set<ItemPurchase> itemPurchases = new HashSet<>();
 }

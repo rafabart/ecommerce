@@ -1,7 +1,7 @@
 package com.ecommerce.entity;
 
 import com.ecommerce.entity.enums.TypeCustomer;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -34,14 +34,14 @@ public class Customer implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private TypeCustomer typeCustomer;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses = new ArrayList<>();
 
-    @ElementCollection
     @CollectionTable
+    @ElementCollection
     private Set<String> phoneNumbers = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Purchase> purchases = new ArrayList<>();
 }
