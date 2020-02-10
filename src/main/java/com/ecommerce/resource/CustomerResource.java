@@ -1,8 +1,9 @@
 package com.ecommerce.resource;
 
-import com.ecommerce.entity.Category;
-import com.ecommerce.entity.dto.CategoryDTO;
-import com.ecommerce.service.CategoryService;
+import com.ecommerce.entity.Customer;
+import com.ecommerce.entity.dto.CustomerDTO;
+import com.ecommerce.entity.dto.CustomerNewDTO;
+import com.ecommerce.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -15,30 +16,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/categories")
-public class CategoryResource {
+@RequestMapping("/customers")
+public class CustomerResource {
 
-    final private CategoryService categoryService;
+    final private CustomerService customerService;
 
     @Autowired
-    public CategoryResource(final CategoryService categoryService) {
-        this.categoryService = categoryService;
+    public CustomerResource(final CustomerService customerService) {
+        this.customerService = customerService;
     }
 
 
     @GetMapping(value = "/{id}", produces = {"application/json"})
-    public ResponseEntity<Category> findById(@PathVariable("id") final Long id) {
+    public ResponseEntity<Customer> findById(@PathVariable("id") final Long id) {
 
-        final Category category = categoryService.findById(id);
+        final Customer customer = customerService.findById(id);
 
-        return ResponseEntity.ok().body(category);
+        return ResponseEntity.ok().body(customer);
     }
 
 
     @PostMapping(consumes = {"application/json"})
-    public ResponseEntity<Void> create(@Valid @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<Void> create(@Valid @RequestBody CustomerNewDTO customerDTO) {
 
-        final Long id = categoryService.create(categoryDTO);
+        final Long id = customerService.create(customerDTO);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -50,9 +51,9 @@ public class CategoryResource {
 
 
     @PutMapping(path = "/{id}", consumes = {"application/json"})
-    public ResponseEntity<Void> update(@PathVariable("id") final Long id, @Valid @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<Void> update(@PathVariable("id") final Long id, @Valid @RequestBody CustomerDTO customerDTO) {
 
-        categoryService.update(id, categoryDTO);
+        customerService.update(id, customerDTO);
 
         return ResponseEntity.noContent().build();
     }
@@ -61,32 +62,32 @@ public class CategoryResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
 
-        categoryService.deleteById(id);
+        customerService.deleteById(id);
 
         return ResponseEntity.noContent().build();
     }
 
 
     @GetMapping(produces = {"application/json"})
-    public ResponseEntity<List<CategoryDTO>> findAll() {
+    public ResponseEntity<List<CustomerDTO>> findAll() {
 
-        final List<Category> categories = categoryService.findAll();
+        final List<Customer> categories = customerService.findAll();
 
-        final List<CategoryDTO> list = categories.stream().map(CategoryDTO::new).collect(Collectors.toList());
+        final List<CustomerDTO> list = categories.stream().map(CustomerDTO::new).collect(Collectors.toList());
 
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(path = "/page", produces = {"application/json"})
-    public ResponseEntity<Page<CategoryDTO>> findAllPageable(
+    public ResponseEntity<Page<CustomerDTO>> findAllPageable(
             @RequestParam(value = "page", defaultValue = "0") final Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24") final Integer linesPerPage,
             @RequestParam(value = "orderBy", defaultValue = "name") final String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC") final String direction) {
 
-        final Page<Category> categories = categoryService.findAllPageable(page, linesPerPage, direction, orderBy);
+        final Page<Customer> categories = customerService.findAllPageable(page, linesPerPage, direction, orderBy);
 
-        final Page<CategoryDTO> list = categories.map(CategoryDTO::new);
+        final Page<CustomerDTO> list = categories.map(CustomerDTO::new);
 
         return ResponseEntity.ok().body(list);
     }

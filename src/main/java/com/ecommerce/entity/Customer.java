@@ -2,6 +2,8 @@ package com.ecommerce.entity;
 
 import com.ecommerce.entity.enums.TypeCustomer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +16,9 @@ import java.util.Set;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Customer implements Serializable {
 
     @Id
@@ -34,7 +38,7 @@ public class Customer implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private TypeCustomer typeCustomer;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 
     @CollectionTable

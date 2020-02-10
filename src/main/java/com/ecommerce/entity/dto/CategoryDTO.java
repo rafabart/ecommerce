@@ -13,8 +13,8 @@ public class CategoryDTO {
 
     private Long id;
 
-    @Length(min = 5, max = 80, message = "O tamanho deve ser entre {min} e {max} caracteres!")
     @NotEmpty(message = "O campo nome esta vazio!")
+    @Length(min = 5, max = 80, message = "O tamanho deve ser entre {min} e {max} caracteres!")
     private String name;
 
     public CategoryDTO(Category category) {

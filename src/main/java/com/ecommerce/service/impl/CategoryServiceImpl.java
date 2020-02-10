@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
+    @Transactional
     public Long create(CategoryDTO categoryDTO) {
 
         categoryDTO.setId(null);
@@ -45,18 +47,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-    public void update(final Long id, CategoryDTO categoryDTO) {
+    @Transactional
+    public void update(final Long id, final CategoryDTO categoryDTO) {
 
-        findById(id);
+        Category category = findById(id);
 
-        categoryDTO.setId(id);
-
-        final Category category = fromDTO(categoryDTO);
+        updateCategoryFromDTO(category, categoryDTO);
 
         categoryRepository.save(category);
     }
 
 
+    @Transactional
     public void deleteById(final Long id) {
 
         findById(id);
@@ -91,5 +93,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .id(categoryDTO.getId())
                 .name(categoryDTO.getName())
                 .build();
+    }
+
+
+    private void updateCategoryFromDTO(Category category, final CategoryDTO categoryDTO) {
+
+        category.setName(categoryDTO.getName());
     }
 }
