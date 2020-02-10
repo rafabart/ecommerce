@@ -1,11 +1,15 @@
 package com.ecommerce.service.impl;
 
 import com.ecommerce.entity.Category;
+import com.ecommerce.entity.dto.CategoryDTO;
 import com.ecommerce.exception.DataIntegrityException;
 import com.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.repository.CategoryRepository;
 import com.ecommerce.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     public Category findById(final Long id) {
 
-        Category category = categoryRepository.findById(id).orElseThrow(
+        final Category category = categoryRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("Categoria")
         );
 
@@ -31,20 +35,25 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-    public Category create(Category category) {
+    public Long create(CategoryDTO categoryDTO) {
 
-        category.setId(null);
+        categoryDTO.setId(null);
 
-        return categoryRepository.save(category);
+        final Category category = fromDTO(categoryDTO);
+
+        return categoryRepository.save(category).getId();
     }
 
 
-    public Category update(final Long id, Category category) {
+    public void update(final Long id, CategoryDTO categoryDTO) {
 
         findById(id);
-        category.setId(id);
 
-        return categoryRepository.save(category);
+        categoryDTO.setId(id);
+
+        final Category category = fromDTO(categoryDTO);
+
+        categoryRepository.save(category);
     }
 
 
@@ -64,5 +73,23 @@ public class CategoryServiceImpl implements CategoryService {
 
     public List<Category> findAll() {
         return categoryRepository.findAll();
+    }
+
+
+    public Page<Category> findAllPageable(final Integer page, final Integer linesPerPage,
+                                          final String direction, final String orderBy) {
+
+        final PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+
+        return categoryRepository.findAll(pageRequest);
+    }
+
+
+    public Category fromDTO(final CategoryDTO categoryDTO) {
+
+        return Category.builder()
+                .id(categoryDTO.getId())
+                .name(categoryDTO.getName())
+                .build();
     }
 }
