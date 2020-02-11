@@ -1,19 +1,25 @@
 package com.ecommerce.service.validation;
 
+import com.ecommerce.entity.Customer;
 import com.ecommerce.entity.dto.CustomerNewDTO;
 import com.ecommerce.entity.enums.TypeCustomer;
 import com.ecommerce.exception.FieldMessageError;
+import com.ecommerce.repository.CustomerRepository;
 import com.ecommerce.service.validation.utils.CPFAndCNPJ;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CpfAndCnpjValidator implements ConstraintValidator<CpfAndCnpj, CustomerNewDTO> {
+public class CustomerCreateValidator implements ConstraintValidator<CustomerCreate, CustomerNewDTO> {
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Override
-    public void initialize(CpfAndCnpj constraintAnnotation) {
+    public void initialize(CustomerCreate constraintAnnotation) {
 
     }
 
@@ -28,6 +34,11 @@ public class CpfAndCnpjValidator implements ConstraintValidator<CpfAndCnpj, Cust
 
         if (customerNewDTO.getTypeCustomer().equals(TypeCustomer.LEGALPERSON.getId()) && !CPFAndCNPJ.isValidCNPJ(customerNewDTO.getCpfOrCnpj())) {
             fieldMessageErrors.add(new FieldMessageError("cpfOrCnpj", "CNPJ inválido!"));
+        }
+
+        Customer customer = customerRepository.findByEmail(customerNewDTO.getEmail());
+        if (customer != null) {
+            fieldMessageErrors.add(new FieldMessageError("email", "Email já existente"));
         }
 
         for (FieldMessageError fieldMessageError : fieldMessageErrors) {

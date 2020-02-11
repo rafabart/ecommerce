@@ -8,10 +8,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = CpfAndCnpjValidator.class)
+@Constraint(validatedBy = CustomerUpdateValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CpfAndCnpj {
+public @interface CustomerUpdate {
 
     String message() default "Erro de validação";
 

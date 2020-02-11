@@ -26,4 +26,17 @@ public class ItemPurchase implements Serializable {
 
     @Column(nullable = false)
     private Double price;
+
+    public void setProduct(final Product product) {
+        this.id.setProduct(product);
+    }
+
+    public void setPurchase(final Purchase purchase) {
+        this.id.setPurchase(purchase);
+    }
+
+
+    public double getSubTotal() {
+        return (price - discount) * quantity;
+    }
 }

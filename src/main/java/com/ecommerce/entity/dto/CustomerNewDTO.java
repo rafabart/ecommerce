@@ -1,6 +1,6 @@
 package com.ecommerce.entity.dto;
 
-import com.ecommerce.service.validation.CpfAndCnpj;
+import com.ecommerce.service.validation.CustomerCreate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-@CpfAndCnpj
+@CustomerCreate
 @NoArgsConstructor
 public class CustomerNewDTO implements Serializable {
 

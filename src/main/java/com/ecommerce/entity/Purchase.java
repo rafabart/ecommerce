@@ -36,4 +36,16 @@ public class Purchase implements Serializable {
 
     @OneToMany(mappedBy = "id.purchase")
     private Set<ItemPurchase> itemPurchases = new HashSet<>();
+
+
+    public double getTotalValue() {
+
+        double sun = 0.0;
+
+        for (ItemPurchase itemPurchase : itemPurchases) {
+            sun = sun + itemPurchase.getSubTotal();
+        }
+
+        return sun;
+    }
 }
