@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,10 +30,12 @@ public class Product implements Serializable {
 
     @ManyToMany
     @JsonIgnore
+    @ToString.Exclude
     @JoinColumn(nullable = false)
     private List<Category> categories = new ArrayList<>();
 
     @JsonIgnore
+    @ToString.Exclude
     @OneToMany(mappedBy = "id.product")
     private Set<ItemPurchase> itemPurchases = new HashSet<>();
 }

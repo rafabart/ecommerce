@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
@@ -51,6 +52,14 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
 
+    public List<Purchase> findAll() {
+
+        List<Purchase> purchases = purchaseRepository.findAll();
+
+        return purchases;
+    }
+
+
     @Transactional
     public Purchase create(Purchase purchase) {
 
@@ -70,12 +79,13 @@ public class PurchaseServiceImpl implements PurchaseService {
         paymentRepository.save(purchase.getPayment());
 
         for (ItemPurchase itemPurchase : purchase.getItemPurchases()) {
-            itemPurchase.setDiscount(0.0);
-            itemPurchase.setPrice(productService.findById(itemPurchase.getId().getProduct().getId()).getPrice());
-            itemPurchase.getId().setPurchase(purchase);
+            itemPurchase.setPurchase(purchase);
+            itemPurchase.setDiscount(00.00);
+            itemPurchase.setPrice(productService.findById(itemPurchase.getProduct().getId()).getPrice());
         }
 
         itemPurchaseRepository.saveAll(purchase.getItemPurchases());
+
         return purchase;
     }
 }

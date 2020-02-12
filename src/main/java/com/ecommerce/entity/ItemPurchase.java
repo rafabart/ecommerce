@@ -35,6 +35,14 @@ public class ItemPurchase implements Serializable {
         this.id.setPurchase(purchase);
     }
 
+    public Product getProduct() {
+        return this.id.getProduct();
+    }
+
+    public Purchase getPurchase() {
+        return this.id.getPurchase();
+    }
+
 
     public double getSubTotal() {
         return (price - discount) * quantity;

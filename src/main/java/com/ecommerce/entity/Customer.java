@@ -2,10 +2,7 @@ package com.ecommerce.entity;
 
 import com.ecommerce.entity.enums.TypeCustomer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -46,6 +43,7 @@ public class Customer implements Serializable {
     private Set<String> phoneNumbers = new HashSet<>();
 
     @JsonIgnore
+    @ToString.Exclude
     @OneToMany(mappedBy = "customer")
     private List<Purchase> purchases = new ArrayList<>();
 }

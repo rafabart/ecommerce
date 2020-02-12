@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,6 +26,7 @@ public class Payment implements Serializable {
     @MapsId
     @OneToOne
     @JsonIgnore
+    @ToString.Exclude
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 }

@@ -1,7 +1,6 @@
 package com.ecommerce.resource;
 
 import com.ecommerce.entity.Purchase;
-import com.ecommerce.entity.dto.CategoryDTO;
 import com.ecommerce.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/purchases")
@@ -25,9 +25,18 @@ public class PurchaseResource {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") final Long id) {
 
-        Purchase purchase = purchaseService.findById(id);
+        final Purchase purchase = purchaseService.findById(id);
 
         return ResponseEntity.ok().body(purchase);
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<Purchase>> findAll() {
+
+        final List<Purchase> purchases = purchaseService.findAll();
+
+        return ResponseEntity.ok().body(purchases);
     }
 
 
