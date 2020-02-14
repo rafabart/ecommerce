@@ -1,6 +1,7 @@
 package com.ecommerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class Address implements Serializable {
 
     @Id
@@ -26,7 +28,7 @@ public class Address implements Serializable {
     @Column(nullable = false)
     private String district;
 
-    @Column(nullable = false)
+    @Column
     private String complement;
 
     @Column(nullable = false)
