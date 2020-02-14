@@ -35,14 +35,17 @@ public class Customer implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private TypeCustomer typeCustomer;
 
+    @Builder.Default
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 
     @CollectionTable
+    @Builder.Default
     @ElementCollection
     private Set<String> phoneNumbers = new HashSet<>();
 
     @JsonIgnore
+    @Builder.Default
     @ToString.Exclude
     @OneToMany(mappedBy = "customer")
     private List<Purchase> purchases = new ArrayList<>();
