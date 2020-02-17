@@ -5,12 +5,16 @@ import com.ecommerce.entity.enums.StatusPayment;
 import com.ecommerce.entity.enums.TypeCustomer;
 import com.ecommerce.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 public class DBService {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private StateRepository stateRepository;
@@ -83,6 +87,7 @@ public class DBService {
         customer.setCpfOrCnpj("58817217050");
         customer.setEmail("rafamola@gmail.com");
         customer.setPhoneNumbers(phoneNumbers);
+        customer.setPassword(bCryptPasswordEncoder.encode("123456"));
 
         city2.setId(2L);
 

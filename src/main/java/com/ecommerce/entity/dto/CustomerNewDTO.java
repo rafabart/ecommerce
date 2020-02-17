@@ -23,6 +23,9 @@ public class CustomerNewDTO implements Serializable {
     @NotEmpty(message = "O campo email esta vazio!")
     private String email;
 
+    @NotEmpty(message = "O campo senha esta vazio!")
+    private String password;
+
     private String cpfOrCnpj;
 
     @NotNull(message = "O campo tipo de cliente esta vazio!")

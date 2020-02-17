@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +25,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     final private CustomerRepository customerRepository;
 
+    final private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Autowired
-    public CustomerServiceImpl(final CustomerRepository customerRepository) {
+    public CustomerServiceImpl(final CustomerRepository customerRepository, final BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.customerRepository = customerRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
@@ -108,6 +112,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCpfOrCnpj(customerDTO.getCpfOrCnpj());
         customer.setTypeCustomer(TypeCustomer.toEnum(customerDTO.getTypeCustomer()));
         customer.getPhoneNumbers().add(customerDTO.getPhoneNumberOne());
+        customer.setPassword(bCryptPasswordEncoder.encode(customerDTO.getPassword()));
 
         if (customerDTO.getPhoneNumberTwo() != null) {
             customer.getPhoneNumbers().add(customerDTO.getPhoneNumberTwo());

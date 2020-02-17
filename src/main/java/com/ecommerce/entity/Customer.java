@@ -28,6 +28,10 @@ public class Customer implements Serializable {
     @Column(unique = true)
     private String email;
 
+    @Column
+    @JsonIgnore
+    private String password;
+
     @Column(nullable = false)
     private String cpfOrCnpj;
 
