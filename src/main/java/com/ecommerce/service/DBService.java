@@ -81,7 +81,7 @@ public class DBService {
         customer.setName("Rafael Marinho");
         customer.setTypeCustomer(TypeCustomer.NATURALPERSON);
         customer.setCpfOrCnpj("58817217050");
-        customer.setEmail("teste@test.com");
+        customer.setEmail("rafamola@gmail.com");
         customer.setPhoneNumbers(phoneNumbers);
 
         city2.setId(2L);

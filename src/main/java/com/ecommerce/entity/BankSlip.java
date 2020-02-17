@@ -12,7 +12,6 @@ import java.util.Date;
 @Data
 @Entity
 @JsonTypeName("bankSlip")
-@EqualsAndHashCode(callSuper = true)
 public class BankSlip extends Payment {
 
     @Column(nullable = false)

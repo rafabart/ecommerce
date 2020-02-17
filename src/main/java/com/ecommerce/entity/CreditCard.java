@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 @Data
 @Entity
 @JsonTypeName("creditCard")
-@EqualsAndHashCode(callSuper = true)
 public class CreditCard extends Payment {
 
     @Column(nullable = false)

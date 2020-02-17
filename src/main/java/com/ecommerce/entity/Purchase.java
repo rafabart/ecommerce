@@ -1,18 +1,23 @@
 package com.ecommerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class Purchase implements Serializable {
 
     @Id
@@ -47,5 +52,27 @@ public class Purchase implements Serializable {
         }
 
         return sun;
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        StringBuilder builder = new StringBuilder();
+        builder.append("Pedido número: ");
+        builder.append(getId());
+        builder.append(", Instante: ");
+        builder.append(sdf.format(getDate()));
+        builder.append(", Cliente: ");
+        builder.append(getCustomer().getName());
+        builder.append(", Situação do pagamento: ");
+        builder.append(getPayment().getStatusPayment().getName());
+        builder.append("\nDetalhes:\n");
+        for (ItemPurchase ip : getItemPurchases()) {
+            builder.append(ip.toString());
+        }
+        builder.append("Valor total: ");
+        builder.append(nf.format(getTotalValue()));
+        return builder.toString();
     }
 }

@@ -1,7 +1,7 @@
 spring:
 
   datasource:
-    url: mysql://bcc301af198574:c4301e33@us-cdbr-iron-east-04.cleardb.net/heroku_c1a5f1a4c39acab?reconnect=true&createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    url: mysql://bcc301af198574:c4301e33@us-cdbr-iron-east-04.cleardb.net/heroku_c1a5f1a4c39acab?reconnect=true
 
   jpa:
     show-sql: false
@@ -11,4 +11,4 @@ spring:
         dialect: org.hibernate.dialect.MySQL5Dialect
         format_sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none

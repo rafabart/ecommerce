@@ -8,9 +8,7 @@ import com.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.repository.ItemPurchaseRepository;
 import com.ecommerce.repository.PaymentRepository;
 import com.ecommerce.repository.PurchaseRepository;
-import com.ecommerce.service.BankSlipService;
-import com.ecommerce.service.ProductService;
-import com.ecommerce.service.PurchaseService;
+import com.ecommerce.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,15 +29,22 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     final private ItemPurchaseRepository itemPurchaseRepository;
 
+    final private EmailService emailService;
+
+    final private CustomerService customerService;
+
     @Autowired
     public PurchaseServiceImpl(final PurchaseRepository purchaseRepository, final BankSlipService bankSlipService,
                                final PaymentRepository paymentRepository, final ProductService productService,
-                               final ItemPurchaseRepository itemPurchaseRepository) {
+                               final ItemPurchaseRepository itemPurchaseRepository, final EmailService emailService,
+                               final CustomerService customerService) {
         this.purchaseRepository = purchaseRepository;
         this.bankSlipService = bankSlipService;
         this.paymentRepository = paymentRepository;
         this.productService = productService;
         this.itemPurchaseRepository = itemPurchaseRepository;
+        this.emailService = emailService;
+        this.customerService = customerService;
     }
 
     public Purchase findById(final Long id) {
@@ -67,6 +72,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         purchase.setDate(new Date());
         purchase.getPayment().setStatusPayment(StatusPayment.PENDING);
         purchase.getPayment().setPurchase(purchase);
+        purchase.setCustomer(customerService.findById(purchase.getCustomer().getId()));
 
         if (purchase.getPayment() instanceof BankSlip) {
             final BankSlip payment = (BankSlip) purchase.getPayment();
@@ -80,11 +86,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         for (ItemPurchase itemPurchase : purchase.getItemPurchases()) {
             itemPurchase.setPurchase(purchase);
+            itemPurchase.setProduct(productService.findById(itemPurchase.getProduct().getId()));
             itemPurchase.setDiscount(00.00);
-            itemPurchase.setPrice(productService.findById(itemPurchase.getProduct().getId()).getPrice());
+            itemPurchase.setPrice(itemPurchase.getProduct().getPrice());
         }
 
         itemPurchaseRepository.saveAll(purchase.getItemPurchases());
+
+        emailService.sendOrderConfirmationEmail(purchase);
 
         return purchase;
     }

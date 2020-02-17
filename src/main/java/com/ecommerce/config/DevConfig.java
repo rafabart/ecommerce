@@ -1,6 +1,8 @@
 package com.ecommerce.config;
 
 import com.ecommerce.service.DBService;
+import com.ecommerce.service.EmailService;
+import com.ecommerce.service.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,5 +30,10 @@ public class DevConfig {
         if (strategy.equals("create")) {
             dbService.instantiateTestDatabase();
         }
+    }
+
+    @Bean
+    public EmailService emailService() {
+        return new SmtpEmailService();
     }
 }
