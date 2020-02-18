@@ -1,6 +1,7 @@
 package com.ecommerce.service;
 
 import com.ecommerce.entity.*;
+import com.ecommerce.entity.enums.Profile;
 import com.ecommerce.entity.enums.StatusPayment;
 import com.ecommerce.entity.enums.TypeCustomer;
 import com.ecommerce.repository.*;
@@ -81,6 +82,10 @@ public class DBService {
         phoneNumbers.add("1699998888");
         phoneNumbers.add("1698885555");
 
+        Set<String> phoneNumbers2 = new HashSet<>();
+        phoneNumbers.add("111198888");
+        phoneNumbers.add("1254885555");
+
         Customer customer = new Customer();
         customer.setName("Rafael Marinho");
         customer.setTypeCustomer(TypeCustomer.NATURALPERSON);
@@ -88,14 +93,30 @@ public class DBService {
         customer.setEmail("rafamola@gmail.com");
         customer.setPhoneNumbers(phoneNumbers);
         customer.setPassword(bCryptPasswordEncoder.encode("123456"));
+        customer.addProfile(Profile.ADMIN);
+
+        Customer customer2 = new Customer();
+        customer2.setName("Edson Surf");
+        customer2.setTypeCustomer(TypeCustomer.NATURALPERSON);
+        customer2.setCpfOrCnpj("83341489096");
+        customer2.setEmail("edsoninstasurf@gmail.com");
+        customer2.setPhoneNumbers(phoneNumbers2);
+        customer2.setPassword(bCryptPasswordEncoder.encode("123456"));
 
         city2.setId(2L);
+        city4.setId(4L);
 
         Address address = new Address(null, "Rua sete de setembro", "155", "Centro", null, "14920-000", customer, city2);
+        Address address2 = new Address(null, "Rua 22 de agosto", "455", "Centro", null, "14920-000", customer2, city4);
 
         customer.getAddresses().add(address);
+        customer2.getAddresses().add(address2);
 
         customer = customerRepository.save(customer);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println(customer);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        customerRepository.save(customer2);
 
         Purchase purchase = new Purchase();
         purchase.setDate(new Date());

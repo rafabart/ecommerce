@@ -5,3 +5,7 @@ spring:
 default:
   sender: rafamola@gmail.com
   recipient: rafamola@gmail.com
+
+jwt:
+  secret: SequenciaDeCaracteresParaAssinarToken
+  expiration: 600000

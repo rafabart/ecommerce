@@ -42,7 +42,6 @@ public class Address implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @ToString.Exclude
     @JoinColumn(nullable = false, name = "city_id")
     private City city;
 }
