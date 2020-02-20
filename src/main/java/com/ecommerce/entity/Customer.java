@@ -22,8 +22,8 @@ public class Customer implements Serializable {
     @Column(unique = true)
     private String email;
 
-    @Column
     @JsonIgnore
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
