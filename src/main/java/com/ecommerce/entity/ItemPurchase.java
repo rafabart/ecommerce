@@ -1,9 +1,6 @@
 package com.ecommerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -11,11 +8,9 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Objects;
 
-@Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 public class ItemPurchase implements Serializable {
 
     @EmbeddedId
@@ -31,8 +26,25 @@ public class ItemPurchase implements Serializable {
     @Column(nullable = false)
     private Double price;
 
-    public void setProduct(final Product product) {
+    public ItemPurchase() {
+    }
+
+    public ItemPurchase(Purchase purchase, Product product, Double discount, Integer quantity, Double price) {
+        super();
+        this.id.setPurchase(purchase);
         this.id.setProduct(product);
+        this.discount = discount;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public double getSubTotal() {
+        return (price - discount) * quantity;
+    }
+
+    @JsonIgnore
+    public Purchase getPurchase() {
+        return this.id.getPurchase();
     }
 
     public void setPurchase(final Purchase purchase) {
@@ -43,13 +55,56 @@ public class ItemPurchase implements Serializable {
         return this.id.getProduct();
     }
 
-    @JsonIgnore
-    public Purchase getPurchase() {
-        return this.id.getPurchase();
+    public void setProduct(final Product product) {
+        this.id.setProduct(product);
     }
 
-    public double getSubTotal() {
-        return (price - discount) * quantity;
+    public ItemPurchasePK getId() {
+        return id;
+    }
+
+    public void setId(ItemPurchasePK id) {
+        this.id = id;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ItemPurchase that = (ItemPurchase) o;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

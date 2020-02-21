@@ -63,12 +63,18 @@ public class DBService {
         Category category2 = new Category(null, "Escritório", null);
         Category category3 = new Category(null, "Ferramentas", null);
 
-        Product product1 = new Product(null, "Notebook", 1900.00, Arrays.asList(category1), null);
-        Product product2 = new Product(null, "Impressora HP", 250.00, Arrays.asList(category1, category2), null);
-        Product product3 = new Product(null, "Cadeira", 1900.00, Arrays.asList(category2), null);
-        Product product4 = new Product(null, "Mesa", 1900.00, Arrays.asList(category2), null);
-        Product product5 = new Product(null, "Alicate", 1900.00, Arrays.asList(category3), null);
-        Product product6 = new Product(null, "Testador De Cabo De Rede RJ45", 37.00, Arrays.asList(category1, category3), null);
+        Product product1 = new Product(null, "Notebook", 1900.00);
+        product1.setCategories(Arrays.asList(category1));
+        Product product2 = new Product(null, "Impressora HP", 250.00);
+        product2.setCategories(Arrays.asList(category1, category2));
+        Product product3 = new Product(null, "Cadeira", 1900.00);
+        product3.setCategories(Arrays.asList(category2));
+        Product product4 = new Product(null, "Mesa", 1900.00);
+        product4.setCategories(Arrays.asList(category2));
+        Product product5 = new Product(null, "Alicate", 1900.00);
+        product5.setCategories(Arrays.asList(category3));
+        Product product6 = new Product(null, "Testador De Cabo De Rede RJ45", 37.00);
+        product6.setCategories(Arrays.asList(category1, category3));
 
         category1.setProducts(Arrays.asList(product1, product2, product6));
         category2.setProducts(Arrays.asList(product2, product3, product4));
@@ -113,9 +119,6 @@ public class DBService {
         customer2.getAddresses().add(address2);
 
         customer = customerRepository.save(customer);
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(customer);
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         customerRepository.save(customer2);
 
         Purchase purchase = new Purchase();

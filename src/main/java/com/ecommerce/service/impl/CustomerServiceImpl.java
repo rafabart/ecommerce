@@ -96,11 +96,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     public Customer fromDTO(final CustomerDTO customerDTO) {
 
-        return Customer.builder()
-                .id(customerDTO.getId())
-                .name(customerDTO.getName())
-                .email(customerDTO.getEmail())
-                .build();
+        Customer customer = new Customer(customerDTO.getId(), customerDTO.getName(), customerDTO.getEmail(), null, null, null);
+
+        return customer;
     }
 
 

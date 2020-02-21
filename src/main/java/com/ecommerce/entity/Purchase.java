@@ -1,23 +1,14 @@
 package com.ecommerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
-@Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 public class Purchase implements Serializable {
 
     @Id
@@ -43,6 +34,17 @@ public class Purchase implements Serializable {
     private Set<ItemPurchase> itemPurchases = new HashSet<>();
 
 
+    public Purchase() {
+    }
+
+    public Purchase(Long id, Date date, Customer customer, Address address) {
+        super();
+        this.id = id;
+        this.date = date;
+        this.customer = customer;
+        this.address = address;
+    }
+
     public double getTotalValue() {
 
         double sun = 0.0;
@@ -52,6 +54,69 @@ public class Purchase implements Serializable {
         }
 
         return sun;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Set<ItemPurchase> getItemPurchases() {
+        return itemPurchases;
+    }
+
+    public void setItemPurchases(Set<ItemPurchase> itemPurchases) {
+        this.itemPurchases = itemPurchases;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Purchase purchase = (Purchase) o;
+
+        return Objects.equals(id, purchase.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
