@@ -7,6 +7,7 @@ import com.ecommerce.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,6 +37,7 @@ public class CustomerResource {
     }
 
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping(consumes = {"application/json"})
     public ResponseEntity<Void> create(@Valid @RequestBody CustomerNewDTO customerDTO) {
 
@@ -50,6 +52,7 @@ public class CustomerResource {
     }
 
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(path = "/{id}", consumes = {"application/json"})
     public ResponseEntity<Void> update(@PathVariable("id") final Long id, @Valid @RequestBody CustomerDTO customerDTO) {
 
@@ -60,6 +63,7 @@ public class CustomerResource {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
 
         customerService.deleteById(id);
@@ -68,6 +72,7 @@ public class CustomerResource {
     }
 
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(produces = {"application/json"})
     public ResponseEntity<List<CustomerDTO>> findAll() {
 
@@ -78,6 +83,8 @@ public class CustomerResource {
         return ResponseEntity.ok().body(list);
     }
 
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(path = "/page", produces = {"application/json"})
     public ResponseEntity<Page<CustomerDTO>> findAllPageable(
             @RequestParam(value = "page", defaultValue = "0") final Integer page,

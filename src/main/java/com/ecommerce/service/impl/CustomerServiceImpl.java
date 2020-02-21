@@ -5,11 +5,15 @@ import com.ecommerce.entity.City;
 import com.ecommerce.entity.Customer;
 import com.ecommerce.entity.dto.CustomerDTO;
 import com.ecommerce.entity.dto.CustomerNewDTO;
+import com.ecommerce.entity.enums.Profile;
 import com.ecommerce.entity.enums.TypeCustomer;
+import com.ecommerce.exception.AuthorizationException;
 import com.ecommerce.exception.DataIntegrityException;
 import com.ecommerce.exception.ObjectNotFoundException;
 import com.ecommerce.repository.CustomerRepository;
+import com.ecommerce.security.UserSpringSecurity;
 import com.ecommerce.service.CustomerService;
+import com.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +40,11 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     public Customer findById(final Long id) {
+
+        UserSpringSecurity user = UserService.authenticated();
+        if (user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException();
+        }
 
         final Customer customer = customerRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("Cliente")

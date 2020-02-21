@@ -6,6 +6,7 @@ import com.ecommerce.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,7 @@ public class CategoryResource {
         return ResponseEntity.ok().body(category);
     }
 
-
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping(consumes = {"application/json"})
     public ResponseEntity<Void> create(@Valid @RequestBody CategoryDTO categoryDTO) {
 
@@ -49,6 +50,7 @@ public class CategoryResource {
     }
 
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(path = "/{id}", consumes = {"application/json"})
     public ResponseEntity<Void> update(@PathVariable("id") final Long id, @Valid @RequestBody CategoryDTO categoryDTO) {
 
@@ -59,6 +61,7 @@ public class CategoryResource {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
 
         categoryService.deleteById(id);

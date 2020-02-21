@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,6 +24,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -36,13 +38,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private static final String[] PUBLIC_MATCHERS = {
-            "/h2-console/**",
-            "/purchases/**"
+            "/h2-console/**"
     };
 
 
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/categories/**",
+            "/products/**"
+    };
+
+    private static final String[] PUBLIC_MATCHERS_POST = {
             "/customers/**"
     };
 
@@ -58,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+                .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();
 
