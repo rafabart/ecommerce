@@ -3,6 +3,7 @@ package com.ecommerce.resource;
 import com.ecommerce.entity.Purchase;
 import com.ecommerce.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -51,5 +52,17 @@ public class PurchaseResource {
                 .toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping(path = "/page", produces = {"application/json"})
+    public ResponseEntity<Page<Purchase>> findAllPageable(
+            @RequestParam(value = "page", defaultValue = "0") final Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") final Integer linesPerPage,
+            @RequestParam(value = "orderBy", defaultValue = "date") final String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") final String direction) {
+
+        final Page<Purchase> purchases = purchaseService.findAllPageable(page, linesPerPage, direction, orderBy);
+
+        return ResponseEntity.ok().body(purchases);
     }
 }

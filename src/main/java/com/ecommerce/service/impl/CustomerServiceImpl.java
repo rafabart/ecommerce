@@ -103,6 +103,23 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
+    public Customer findByEmail(final String email) {
+
+        UserSpringSecurity user = UserService.authenticated();
+
+        if (user == null || !user.hasRole(Profile.ADMIN) && !email.equals(user.getUsername())) {
+            throw new AuthorizationException();
+        }
+
+        Customer customer = customerRepository.findByEmail(email);
+
+        if (customer == null) {
+            throw new ObjectNotFoundException("Cliente");
+        }
+        return customer;
+    }
+
+
     public Customer fromDTO(final CustomerDTO customerDTO) {
 
         Customer customer = new Customer(customerDTO.getId(), customerDTO.getName(), customerDTO.getEmail(), null, null, null);

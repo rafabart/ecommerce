@@ -17,6 +17,8 @@ public interface CustomerService {
 
     void deleteById(final Long id);
 
+    Customer findByEmail(final String email);
+
     List<Customer> findAll();
 
     Page<Customer> findAllPageable(final Integer page, final Integer linesPerPage,

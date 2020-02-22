@@ -36,6 +36,14 @@ public class CustomerResource {
         return ResponseEntity.ok().body(customer);
     }
 
+    @GetMapping(value = "/email/{email}", produces = {"application/json"})
+    public ResponseEntity<Customer> findByEmail(@PathVariable("email") final String email) {
+
+        final Customer customer = customerService.findByEmail(email);
+
+        return ResponseEntity.ok().body(customer);
+    }
+
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping(consumes = {"application/json"})
