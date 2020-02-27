@@ -22,7 +22,9 @@ Usando:
 * Gradle
 
 Existem quatro arquivos de configuração(yml): Teste, Desenvolvimento, Produção e o Starter.
+
 Padrozinação no lançamento de exceções.
+
 Niveis de autorização por tipo de usuário: Adminstrador ou Usuário.
 
 URL de acesso a api:
