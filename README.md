@@ -1,6 +1,9 @@
 POC de sistema de loja e-commerce.(Backend)
+
 Sistema possuí cadastro de usuário, cidade, estado e produtos.
+
 Simula pagamentos com boleto bancario e cartão de credido com parcelas.
+
 Envia emails com o resumo das compras realizadas e para recuperação de senha.
 
 
